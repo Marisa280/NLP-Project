@@ -71,7 +71,7 @@ def main():
                 # แสดงผลลัพธ์
                 for _, row in results_to_show.iterrows():
                     st.markdown(f"""
-                    <div style="border: 2px solid #ff7043; padding: 15px; border-radius: 10px; margin-bottom: 10px; background-color: #6495ED;">
+                    <div style="border: 2px solid #ff7043; padding: 15px; border-radius: 10px; margin-bottom: 10px; background-color: #ff7037;">
                         <strong>📌 ชื่อร้าน:</strong> {row["name"]}  
                         <br>
                         <strong>💵 ราคาโดยประมาณ:</strong> {row["price_level"]}  
