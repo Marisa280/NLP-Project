@@ -3,7 +3,7 @@ import pandas as pd
 
 # ฟังก์ชันโหลดข้อมูลจาก URL
 def load_data():
-    url = "https://raw.githubusercontent.com/Marisa280/NLP-Project/main/data_clean.csv"  # ใช้ URL สำหรับ raw GitHub file
+    url = "https://raw.githubusercontent.com/Marisa280/NLP-Project-reccomend-food/refs/heads/main/data_clean.csv"  # ใช้ URL สำหรับ raw GitHub file
     data = pd.read_csv(url)
     return data
 
