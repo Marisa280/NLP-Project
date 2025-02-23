@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import random
 
 # ฟังก์ชันโหลดข้อมูลจาก URL
 def load_data():
@@ -11,19 +12,9 @@ def filter_data(data, keyword, price_type):
     # กรองเมนูที่เกี่ยวข้องกับ keyword
     filtered_data = data[data['name'].str.contains(keyword, case=False, na=False)]
     
-    # แปลง price_level เป็นตัวเลข
-    price_map = {
-        "ต่ำกว่า 100": 1,
-        "100-250": 2,
-        "251-500": 3,
-        "501-1,000": 4,
-        "มากกว่า 1,000": 5
-    }
-    selected_price = price_map.get(price_type, None)
-    
     # กรองตามระดับราคา
-    if selected_price is not None:
-        filtered_data = filtered_data[filtered_data["price_level"] == selected_price]
+    if price_type:
+        filtered_data = filtered_data[filtered_data["price_level"].str.contains(price_type, case=False, na=False)]
 
     return filtered_data
 
@@ -71,17 +62,25 @@ def main():
             if not results.empty:
                 st.success(f"🔍 พบ {len(results)} ร้านที่ตรงกับเงื่อนไขของคุณ")
                 
+                # สุ่มลำดับผลลัพธ์
+                results = results.sample(frac=1).reset_index(drop=True)
+                
                 # เลือกเฉพาะจำนวนร้านที่ผู้ใช้เลือก
                 results_to_show = results.head(num_results)
                 
+                # แสดงผลลัพธ์
                 for _, row in results_to_show.iterrows():
                     st.markdown(f"""
-                    **📌 ชื่อร้าน:** {row["name"]}  
-                    **💵 ราคาโดยประมาณ:** {row["price_level"]}  
-                    **🍽 หมวดหมู่:** {row["category"]}  
-                    🔗 [ดูรายละเอียดร้าน]({row["url"]})  
-                    --- 
-                    """)
+                    <div style="border: 2px solid #ff7043; padding: 15px; border-radius: 10px; margin-bottom: 10px; background-color: #f8f8f8;">
+                        <strong>📌 ชื่อร้าน:</strong> {row["name"]}  
+                        <br>
+                        <strong>💵 ราคาโดยประมาณ:</strong> {row["price_level"]}  
+                        <br>
+                        <strong>🍽 หมวดหมู่:</strong> {row["category"]}  
+                        <br>
+                        <strong>🔗 [ดูรายละเอียดร้าน]({row["url"]})</strong>  
+                    </div>
+                    """, unsafe_allow_html=True)
             else:
                 st.warning("❌ ไม่พบร้านอาหารที่ตรงกับเงื่อนไขของคุณ")
         else:
