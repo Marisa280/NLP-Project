@@ -3,13 +3,13 @@ import pandas as pd
 
 # ฟังก์ชันโหลดข้อมูลจาก URL
 def load_data():
-    url = "https://github.com/Marisa280/NLP-Project/blob/main/data_clean.csv"  # เปลี่ยนเป็น URL จริงของไฟล์
+    url = "https://raw.githubusercontent.com/Marisa280/NLP-Project/main/data_clean.csv"  # ใช้ URL สำหรับ raw GitHub file
     data = pd.read_csv(url)
     return data
 
 def filter_data(data, keyword, price_type):
     # กรองเมนูที่เกี่ยวข้องกับ keyword
-    filtered_data = data[data['menu'].str.contains(keyword, case=False, na=False)]
+    filtered_data = data[data['name'].str.contains(keyword, case=False, na=False)]
     
     # แปลง price_level เป็นตัวเลข
     price_map = {
